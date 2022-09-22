@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
 
-# Create your views here.
+from .models import Case, Images
+from .serializers import CaseSerializer, ImageSerializer
+
+
+class CaseModelViewSet(ModelViewSet):
+    queryset = Case.objects.all()
+    serializer_class = CaseSerializer
+
+

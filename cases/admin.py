@@ -1,5 +1,5 @@
 from django.contrib import admin
-from cases.models import Case, Categories
+from cases.models import Case, Categories, Images
 
 
 @admin.register(Case)
@@ -12,4 +12,9 @@ class CaseAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     model = Categories
     list_display = ['title', 'slug']
+
+
+@admin.register(Images)
+class ImagesAdmin(admin.ModelAdmin):
+    model = Images
 

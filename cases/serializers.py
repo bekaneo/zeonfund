@@ -13,6 +13,8 @@ class CaseSerializer(serializers.ModelSerializer):
             representation['images'] = ImageSerializer(instance.images.all(),
                                                        many=True).data
 
+        return representation
+
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:

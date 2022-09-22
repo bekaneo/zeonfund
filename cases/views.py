@@ -15,5 +15,5 @@ class ImageViewSet(ModelViewSet):
 
 
 class CategoriesViewSet(ModelViewSet):
-    queryset = Categories
+    queryset = Categories.objects.all()
     serializer_class = CategoriesSerializer

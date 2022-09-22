@@ -3,6 +3,7 @@ from django.core.mail import send_mail
 
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from fund import settings
 
 
 User = get_user_model()
@@ -60,7 +61,7 @@ class LoginSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         email = attrs.get('email')
         password = attrs.get('password')
-        user = User.objects.get(login=email)
+        user = User.objects.get(email=email)
         if not user.check_password(password):
             raise serializers.ValidationError('Password is not valid')
         return super().validate(attrs)

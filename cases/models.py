@@ -26,10 +26,12 @@ class Categories(models.Model):
 class Case(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    deadline = models.TimeField()
-    created_at = models.TimeField(auto_now_add=True)
+    deadline = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS_CHOICES, blank=True,
                                  null=True)
+
+    categories = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.title, self.status

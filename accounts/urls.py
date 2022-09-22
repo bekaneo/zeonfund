@@ -19,6 +19,6 @@ urlpatterns = [
     path('restore_password/', RestorePasswordView.as_view()),
     path('restore_complete/', RestorePasswordCompleteView.as_view()),
     path('change_password/', ChangePasswordView.as_view()),
-    path('users/<str:login>', ProfileView.as_view()),
+    path('users/<str:email>', ProfileView.as_view()),
     path('user_list/', UserListView.as_view())
 ]

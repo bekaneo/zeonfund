@@ -5,7 +5,7 @@ from django.utils.crypto import get_random_string
 
 class UserManager(BaseUserManager):
     def _create(self, email, password, username, **fields):
-        login = self.normalize_email(email)
+        email = self.normalize_email(email)
         user = self.model(email=email, username=username, **fields)
         user.set_password(password)
         user.save()

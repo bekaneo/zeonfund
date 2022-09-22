@@ -1,12 +1,11 @@
 from django.contrib import admin
 from cases.models import Case, Categories, Images
-from cases.serializers import ImageSerializer
-
 
 class CaseImageInLine(admin.TabularInline):
     model = Images
     max_num = 10
     min_num = 1
+
 
 
 class CaseAdmin(admin.ModelAdmin):
@@ -19,6 +18,7 @@ class CaseAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     model = Categories
     list_display = ['title', 'slug']
+
 
 
 admin.site.register(Case, CaseAdmin)

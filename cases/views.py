@@ -17,7 +17,8 @@ class CaseModelViewSet(ModelViewSet):
         print(self.request.data.get('category'))
         case_serializer = CaseSerializer(data=request.data, context={'request': request})
         if case_serializer.is_valid(raise_exception=True):
-            case = case_serializer.save(user=request.user, **request.POST)
+            case = case_serializer.save(user=self.request.user)
+
             case_data = case_serializer.data
 
         images = []

@@ -18,7 +18,7 @@ class CaseModelViewSet(ModelViewSet):
         case_serializer = CaseSerializer(data=request.data, context={'request': request})
         if case_serializer.is_valid(raise_exception=True):
             case = case_serializer.save(user=request.user)
-            print(case)
+
             case_data = case_serializer.data
 
 

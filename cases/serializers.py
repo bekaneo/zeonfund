@@ -23,6 +23,8 @@ class CaseSerializer(serializers.ModelSerializer):
     #     attrs['user'] = self.context.get('request').user
     #     return attrs
 
+        return representation
+
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:

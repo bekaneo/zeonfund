@@ -30,8 +30,8 @@ class UserListView(ListAPIView):
 class ProfileView(ListAPIView):
     serializer_class = ProfileSerializer
 
-    def list(self, request, *args, **kwargs):
-        queryset = User.objects.filter(login=request.user)
+    def list(self, request, email, *args, **kwargs):
+        queryset = User.objects.filter(email=email)
         serializer = ProfileSerializer(queryset, context={'request': request}, many=True)
 
         if serializer.data:
@@ -47,6 +47,18 @@ class RegistrationView(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.create()
             return Response('Successfully created', status=status.HTTP_201_CREATED)
+
+
+class ActivationView(APIView):
+    def get(self, request, activation_code):
+        try:
+            user = User.objects.get(activation_code=activation_code)
+            user.is_active = True
+            user.activation_code = ''
+            user.save()
+            return Response('Account is activated', status=status.HTTP_201_CREATED)
+        except User.DoesNotExist:
+            return Response('Activation code is invalid', status=status.HTTP_404_NOT_FOUND)
 
 
 class LoginView(TokenObtainPairView):

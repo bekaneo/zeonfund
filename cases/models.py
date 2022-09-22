@@ -11,8 +11,7 @@ STATUS_CHOICES = (
     (1, 'Active'),
     (2, 'Success'),
     (3, 'Closed'),
-    (4, 'In process of review'),
-
+    (4, 'In Review'),
 )
 
 
@@ -35,10 +34,9 @@ class Case(models.Model):
     description = models.TextField()
     deadline = models.DateField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    status = models.IntegerField(choices=STATUS_CHOICES, blank=True,
-                                 null=True)
-
+    status = models.IntegerField(choices=STATUS_CHOICES, default=4)
+    goal = models.IntegerField(default=1000)
+    raised = models.IntegerField(default=0)
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -47,5 +45,4 @@ class Case(models.Model):
 
 class Images(models.Model):
     image = models.ImageField(upload_to='cases')
-
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='images')

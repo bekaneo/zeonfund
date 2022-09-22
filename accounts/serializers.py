@@ -45,8 +45,10 @@ class RegistrationSerializer(serializers.Serializer):
             raise serializers.ValidationError('Passwords are not identical')
         return super().validate(attrs)
 
-    def create(self, **kwargs):
-        User.objects.create_user(**self.validated_data)
+    def create(self):
+        user = User.objects.create_user(**self.validated_data)
+        user.create_activation_code()
+        user.send_activation_code()
 
 
 class LoginSerializer(TokenObtainPairSerializer):
@@ -90,7 +92,7 @@ class RestorePasswordSerializer(serializers.Serializer):
 
 class RestorePasswordCompleteSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    activation_code = serializers.CharField(max_length=20, min_length=20)
+    activation_code = serializers.CharField()
     password = serializers.CharField(min_length=4)
     password_confirm = serializers.CharField(min_length=4)
 

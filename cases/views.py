@@ -9,7 +9,7 @@ from .serializers import CaseSerializer, ImageSerializer, CategoriesSerializer
 
 
 class CaseModelViewSet(ModelViewSet):
-    queryset = Case.objects.all()
+    queryset = Case.objects.filter(status=1)
     serializer_class = CaseSerializer
     filter_backends = [filters.SearchFilter, rest_framework.DjangoFilterBackend]
     search_fields = ['title']
@@ -17,27 +17,23 @@ class CaseModelViewSet(ModelViewSet):
 
     @swagger_auto_schema(request_body=CaseSerializer)
     def create(self, request, *args, **kwargs):
-        print(self.request.user)
-        print(self.request.data.get('category'))
         case_serializer = CaseSerializer(data=request.data, context={'request': request})
         if case_serializer.is_valid(raise_exception=True):
             case = case_serializer.save(user=request.user)
-
             case_data = case_serializer.data
+            images = []
 
-        images = []
+            for image in request.FILES.getlist('images'):
+                data = {'image': image, 'case': case.id}
+                image_serializer = ImageSerializer(data=data, context={'case': case, 'request': request})
+                if image_serializer.is_valid(raise_exception=True):
+                    image_serializer.save()
+                    images.append(image_serializer.data)
 
-        for image in request.FILES.getlist('images'):
-            data = {'image': image, 'case': case.id}
-            # print(case.case_id)
-            image_serializer = ImageSerializer(data=data, context={'case': case, 'request': request})
-            if image_serializer.is_valid(raise_exception=True):
-                image_serializer.save()
-                images.append(image_serializer.data)
+            data = {'product_data': case_data, 'images': images}
+            return Response(data, status=status.HTTP_201_CREATED)
 
-        data = {'product_data': case_data, 'image': images}
-        return Response(data, status=status.HTTP_201_CREATED)
-    #     return Response('ss')
+        return Response('Invalid data', status=status.HTTP_400_BAD_REQUEST)
 
 
 class ImageViewSet(ModelViewSet):

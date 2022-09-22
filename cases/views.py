@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import status
+from rest_framework import status, filters
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -10,6 +10,8 @@ from .serializers import CaseSerializer, ImageSerializer, CategoriesSerializer
 class CaseModelViewSet(ModelViewSet):
     queryset = Case.objects.all()
     serializer_class = CaseSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title']
 
     @swagger_auto_schema(request_body=CaseSerializer)
     def create(self, request, *args, **kwargs):
@@ -20,7 +22,6 @@ class CaseModelViewSet(ModelViewSet):
             case = case_serializer.save(user=request.user)
 
             case_data = case_serializer.data
-
 
         images = []
 
@@ -45,3 +46,4 @@ class ImageViewSet(ModelViewSet):
 class CategoriesViewSet(ModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategoriesSerializer
+    filter_backends = [filters.SearchFilter]

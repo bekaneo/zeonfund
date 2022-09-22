@@ -4,6 +4,7 @@ from .models import Images, Case, Categories
 
 class CaseSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.email')
+    case = serializers.ReadOnlyField()
 
     class Meta:
         model = Case
@@ -17,10 +18,10 @@ class CaseSerializer(serializers.ModelSerializer):
             representation['images'] = images.data
         return representation
 
-    def validate(self, attrs):
-        attrs = super().validate(attrs)
-        attrs['user'] = self.context.get('request').user
-        return attrs
+    # def validate(self, attrs):
+    #     attrs = super().validate(attrs)
+    #     attrs['user'] = self.context.get('request').user
+    #     return attrs
 
 
 class ImageSerializer(serializers.ModelSerializer):

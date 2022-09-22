@@ -17,20 +17,24 @@ class CaseModelViewSet(ModelViewSet):
         print(self.request.data.get('category'))
         case_serializer = CaseSerializer(data=request.data, context={'request': request})
         if case_serializer.is_valid(raise_exception=True):
-            case = case_serializer.save(user=request.user, **request.POST)
+            case = case_serializer.save(user=request.user)
+            print(case)
             case_data = case_serializer.data
 
+
         images = []
-        for image in request.FILES.getlist('image'):
-            data = {'image': image}
-            image_serializer = ImageSerializer(data=data, context={'case': case.id, 'request': request})
+
+        for image in request.FILES.getlist('images'):
+            data = {'image': image, 'case': case.id}
+            # print(case.case_id)
+            image_serializer = ImageSerializer(data=data, context={'case': case, 'request': request})
             if image_serializer.is_valid(raise_exception=True):
                 image_serializer.save()
                 images.append(image_serializer.data)
 
         data = {'product_data': case_data, 'image': images}
         return Response(data, status=status.HTTP_201_CREATED)
-        return Response('ss')
+    #     return Response('ss')
 
 
 class ImageViewSet(ModelViewSet):

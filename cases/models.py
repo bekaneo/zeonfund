@@ -33,8 +33,8 @@ class Case(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    deadline = models.DateField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    # deadline = models.DateField()
+    created_at = models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=STATUS_CHOICES, blank=True,
                                  null=True)
 
@@ -46,8 +46,4 @@ class Case(models.Model):
 
 class Images(models.Model):
     image = models.ImageField(upload_to='cases')
-    case = models.ForeignKey(Case, on_delete=models.CASCADE,
-                             related_name='images')
-
-    def __str__(self):
-        return self.case
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='images')

@@ -1,11 +1,17 @@
 from django.contrib import admin
 from cases.models import Case, Categories, Images
 
+class CaseImageInLine(admin.TabularInline):
+    model = Images
+    max_num = 10
+    min_num = 1
 
-@admin.register(Case)
+
+
 class CaseAdmin(admin.ModelAdmin):
     model = Case
-    list_display = ['title', 'description', 'category', 'created_at', 'status']
+    inlines = [CaseImageInLine, ]
+    list_display = ['title']
 
 
 @admin.register(Categories)
@@ -14,7 +20,5 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug']
 
 
-@admin.register(Images)
-class ImagesAdmin(admin.ModelAdmin):
-    model = Images
 
+admin.site.register(Case, CaseAdmin)

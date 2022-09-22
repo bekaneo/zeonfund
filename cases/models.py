@@ -35,6 +35,7 @@ class Case(models.Model):
     description = models.TextField()
     deadline = models.DateField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
     status = models.IntegerField(choices=STATUS_CHOICES, blank=True,
                                  null=True)
 
@@ -46,6 +47,5 @@ class Case(models.Model):
 
 class Images(models.Model):
     image = models.ImageField(upload_to='cases')
-    case = models.ForeignKey(Case, on_delete=models.CASCADE,
-                             related_name='images')
 
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='images')

@@ -8,11 +8,12 @@ from .views import (RegistrationView,
                     RestorePasswordCompleteView,
                     ChangePasswordView,
                     ProfileView,
-                    UserListView)
+                    UserListView, ActivationView)
 
 
 urlpatterns = [
     path('registration/', RegistrationView.as_view()),
+    path('activation/<str:activation_code>', ActivationView.as_view()),
     path('login/', LoginView.as_view()),
     path('refresh/', UpdateTokenView.as_view()),
     path('logout/', LogoutView.as_view()),

@@ -1,6 +1,9 @@
+from django.core.mail import send_mail
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils.crypto import get_random_string
+
+from fund import settings
 
 
 class UserManager(BaseUserManager):
@@ -12,7 +15,7 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password, username, **fields):
-        fields.setdefault('is_active', True)
+        fields.setdefault('is_active', False)
         fields.setdefault('is_staff', False)
         return self._create(email, password, username, **fields)
 
@@ -50,6 +53,16 @@ class User(AbstractBaseUser):
         self.activation_code = code
         self.save()
         return code
+
+    def send_activation_code(self):
+        # TODO: change activations link
+        activation_link = f'https://immense-taiga-48367.herokuapp.com/account/activation/' \
+                          f'{self.activation_code}'
+        send_mail(subject='Activation',
+                  message=activation_link,
+                  from_email=settings.EMAIL_HOST_USER,
+                  recipient_list=[self.email],
+                  fail_silently=False)
 
     def get_all_permissions(self, obj=None):
         return ''

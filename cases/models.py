@@ -1,4 +1,5 @@
 from django.db import models
+from slugify import slugify
 
 STATUS_CHOICES = (
     (1, 'Active'),
@@ -7,6 +8,19 @@ STATUS_CHOICES = (
     (4, 'In process of review'),
 
 )
+
+
+class Categories(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, primary_key=True)
+
+    def __str__(self):
+        return self.slug
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(str(self.title))
+        super().save(*args, **kwargs)
 
 
 class Case(models.Model):

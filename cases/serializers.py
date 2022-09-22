@@ -18,13 +18,6 @@ class CaseSerializer(serializers.ModelSerializer):
             representation['images'] = images.data
         return representation
 
-    # def validate(self, attrs):
-    #     attrs = super().validate(attrs)
-    #     attrs['user'] = self.context.get('request').user
-    #     return attrs
-
-        return representation
-
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:

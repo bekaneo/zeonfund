@@ -4,22 +4,22 @@ from django.utils.crypto import get_random_string
 
 
 class UserManager(BaseUserManager):
-    def _create(self, login, password, name, **fields):
-        login = self.normalize_email(login)
-        user = self.model(login=login, name=name, **fields)
+    def _create(self, email, password, username, **fields):
+        login = self.normalize_email(email)
+        user = self.model(email=email, username=username, **fields)
         user.set_password(password)
         user.save()
         return user
 
-    def create_user(self, login, password, name, **fields):
+    def create_user(self, email, password, username, **fields):
         fields.setdefault('is_active', True)
         fields.setdefault('is_staff', False)
-        return self._create(login, password, name, **fields)
+        return self._create(email, password, username, **fields)
 
-    def create_superuser(self, login, password, name, **fields):
+    def create_superuser(self, email, password, username, **fields):
         fields.setdefault('is_active', True)
         fields.setdefault('is_staff', True)
-        return self._create(login, password, name, **fields)
+        return self._create(email, password, username, **fields)
 
 
 class User(AbstractBaseUser):

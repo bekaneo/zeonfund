@@ -1,8 +1,6 @@
 from django.contrib.auth import get_user_model
-from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework import filters
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -11,8 +9,7 @@ from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from accounts.serializers import (UsersListSerializer,
-                                  ProfileSerializer,
+from accounts.serializers import (ProfileSerializer,
                                   RegistrationSerializer,
                                   LoginSerializer,
                                   RestorePasswordSerializer,
@@ -20,14 +17,6 @@ from accounts.serializers import (UsersListSerializer,
                                   ChangePasswordSerializer)
 
 User = get_user_model()
-
-
-class UsersListView(ListAPIView):
-    queryset = User.objects.all().order_by('-overall_score')
-    serializer_class = UsersListSerializer
-    search_fields = ['name', 'second_name', 'phone_number']
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
-    filterset_fields = ['group']
 
 
 class ProfileView(ListAPIView):

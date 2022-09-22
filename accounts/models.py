@@ -23,25 +23,21 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    name = models.CharField(max_length=50, blank=True)
+    username = models.CharField(max_length=50, blank=True)
     second_name = models.CharField(max_length=50, blank=True)
-    login = models.EmailField(primary_key=True)
+    email = models.EmailField(primary_key=True)
     phone_number = models.CharField(max_length=15, blank=True)
-    group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, related_name='user')
-    overall_score = models.IntegerField(blank=True, default=0)
-    overall_rating = models.IntegerField(blank=True, default=0)
-    group_rating = models.IntegerField(blank=True, default=0)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=5, blank=True)
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'login'
-    REQUIRED_FIELDS = ['name']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
-        return self.login
+        return self.email
 
     def has_module_perms(self, app_label):
         return self.is_staff
@@ -57,3 +53,4 @@ class User(AbstractBaseUser):
 
     def get_all_permissions(self, obj=None):
         return ''
+

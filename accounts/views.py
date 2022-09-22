@@ -22,8 +22,8 @@ User = get_user_model()
 class ProfileView(ListAPIView):
     serializer_class = ProfileSerializer
 
-    def list(self, request, login, *args, **kwargs):
-        queryset = User.objects.filter(login=login)
+    def list(self, request, *args, **kwargs):
+        queryset = User.objects.filter(login=request.user)
         serializer = ProfileSerializer(queryset, context={'request': request}, many=True)
 
         if serializer.data:

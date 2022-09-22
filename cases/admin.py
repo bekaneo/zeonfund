@@ -3,12 +3,13 @@ from cases.models import Case, Categories
 
 
 @admin.register(Case)
-class UserAdmin(admin.ModelAdmin):
+class CaseAdmin(admin.ModelAdmin):
     model = Case
-    list_display = ['title', 'description', 'deadline', 'created_at', 'status']
+    list_display = ['title', 'description', 'category', 'created_at', 'status']
 
 
 @admin.register(Categories)
-class UserAdmin(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     model = Categories
     list_display = ['title', 'slug']
+

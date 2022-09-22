@@ -1,5 +1,11 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
 from slugify import slugify
+
+
+User = get_user_model()
+
 
 STATUS_CHOICES = (
     (1, 'Active'),
@@ -24,6 +30,7 @@ class Categories(models.Model):
 
 
 class Case(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     deadline = models.DateField()
@@ -31,10 +38,10 @@ class Case(models.Model):
     status = models.IntegerField(choices=STATUS_CHOICES, blank=True,
                                  null=True)
 
-    categories = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.title, self.status
+        return self.title
 
 
 class Images(models.Model):

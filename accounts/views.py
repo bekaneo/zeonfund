@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import status
+from rest_framework import status, filters
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -14,9 +14,17 @@ from accounts.serializers import (ProfileSerializer,
                                   LoginSerializer,
                                   RestorePasswordSerializer,
                                   RestorePasswordCompleteSerializer,
-                                  ChangePasswordSerializer)
+                                  ChangePasswordSerializer,
+                                  UsersListSerializer)
 
 User = get_user_model()
+
+
+class UserListView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UsersListSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['username', 'email']
 
 
 class ProfileView(ListAPIView):

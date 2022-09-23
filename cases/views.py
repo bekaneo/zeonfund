@@ -34,7 +34,7 @@ class PaymentView(ListCreateAPIView):
 
 
 class CaseModelViewSet(ModelViewSet):
-    queryset = Case.objects.filter(status=1)
+    queryset = Case.objects.exclude(status=4)
     serializer_class = CaseSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['title']

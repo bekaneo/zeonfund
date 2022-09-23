@@ -29,7 +29,7 @@ class Categories(models.Model):
 
 
 class Case(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='case')
     title = models.CharField(max_length=255)
     description = models.TextField()
     deadline = models.DateField(null=True)

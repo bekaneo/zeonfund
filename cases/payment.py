@@ -12,6 +12,7 @@ def create_sig(request, order_id, salt):
         'pg_description': str(request.data.get('description')),
         'pg_currency': 'KGS',
         'pg_salt': str(salt),
+        'pg_testing_mode': '1',
     }
     res = []
     a = sorted(sig)

@@ -3,6 +3,8 @@ from django.core.mail import send_mail
 
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from cases.serializers import CaseSerializer
 from fund import settings
 
 
@@ -16,6 +18,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
+        representation['cases'] = CaseSerializer(instance.case.all(), many=True).data
         return representation
 
 

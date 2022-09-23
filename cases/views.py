@@ -27,6 +27,7 @@ class PaymentView(ListCreateAPIView):
             'pg_description': str(request.data.get('description')),
             'pg_salt': str(salt),
             'pg_currency': 'KGS',
+            'pg_testing_mode': '1',
             'pg_sig': payment.create_sig(request, order_id, salt),
         }
         req = requests.post('https://api.paybox.money/init_payment.php', data=payment_sig_init)

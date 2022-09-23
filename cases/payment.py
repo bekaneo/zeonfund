@@ -1,0 +1,22 @@
+from random import randint
+a = {
+    'pg_order_id': randint(1, 2000000),
+    'pg_merchant_id': 535456,
+    'pg_amount': 20,
+    'pg_description': 'test',
+    'pg_salt': 'molbulak',
+    'pg_currency':'KGS',
+    'pg_request_method': 'POST',
+    'pg_success_url_method': 'GET',
+    'pg_failure_url_method': 'GET',
+    'pg_state_url_method': 'GET',
+    'pg_site_url': 'http://site.kz/return',
+    'pg_payment_system': 'EPAYWEBKZT',
+    'pg_lifetime': '86400',
+    'pg_user_phone': '77777777777',
+    'pg_user_contact_email': 'mail@customer.kz',
+    'pg_user_ip': '127.0.0.1',
+    'pg_language': 'ru',
+    'pg_testing_mode': '1',
+    'pg_user_id': '1',
+}

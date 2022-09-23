@@ -35,6 +35,8 @@ DEBUG = config('DEBUG', cast=bool, default=True)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split()
 
+MERCHANT_ID = config('MERCHANT_ID')
+MERCHANT_SECRET_KEY = config('MERCHANT_SECRET_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -54,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'debug_toolbar',
+    "corsheaders",
     'django_filters',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -94,6 +97,8 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -103,6 +108,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+PAYMENT_VARIANTS = {
+    "default": (
+        "django_payments_provider.PayboxProvider",
+        {
+            "secret": "LeFnP16MP6AU6YKc",
+            "merchant_id": 535456,
+            "site_url": "https://my.paybox.money/dev",
+            "testing_mode": 1,
+        },
+    )
+}
 
 ROOT_URLCONF = 'fund.urls'
 

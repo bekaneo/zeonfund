@@ -24,23 +24,20 @@ class ImageSerializer(serializers.ModelSerializer):
         model = Images
         fields = '__all__'
 
-    # def get_image_url(self, obj):
-    #     if obj.image:
-    #         url = obj.image.url
-    #         request = self.context.get('request')
-    #         if request is not None:
-    #             url = request.build_absolute_uri(url)
-    #     else:
-    #         url = ''
-    #     return url
-    #
-    # def to_representation(self, instance):
-    #     representation = super().to_representation(instance)
-    #     representation['images'] = self.get_image_url(instance)
-    #     return representation
-    #
-    # def create(self, validated_data):
-    #     return ImageSerializer.objects.create(case=self.context.get('case'), **validated_data)
+    def get_image_url(self, obj):
+        if obj.image:
+            url = obj.image.url
+            request = self.context.get('request')
+            if request is not None:
+                url = request.build_absolute_uri(url)
+        else:
+            url = ''
+        return url
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['images'] = self.get_image_url(instance)
+        return representation
 
 
 class CategoriesSerializer(serializers.ModelSerializer):

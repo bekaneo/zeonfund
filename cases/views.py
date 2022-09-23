@@ -1,6 +1,7 @@
 from django.utils.crypto import get_random_string
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
+from django_filters import rest_framework
 from rest_framework import status, filters
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet

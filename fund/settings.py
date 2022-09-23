@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 from decouple import config
-from django.utils.translation import gettext_lazy as _
 import os
 
 SECRET_KEY = config('SECRET_KEY')
@@ -43,7 +42,6 @@ MERCHANT_SECRET_KEY = config('MERCHANT_SECRET_KEY')
 
 INSTALLED_APPS = [
     'jazzmin',
-    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -173,22 +171,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 LANGUAGE_CODE = 'ru'
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
-
-gettext = lambda s: s
-LANGUAGES = (
-    ('ru', _("Russia")),
-    ('en', _("English")),
-)
-
-LOCALE_PATH = (
-    os.path.join(BASE_DIR, 'locale/'),
-)
-
 
 TIME_ZONE = 'Asia/Bishkek'
-
-USE_I18N = True
 
 USE_L10N = True
 

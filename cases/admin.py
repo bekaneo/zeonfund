@@ -1,5 +1,7 @@
 from django.contrib import admin
 from cases.models import Case, Categories, Images
+from modeltranslation.admin import TranslationAdmin
+
 
 class CaseImageInLine(admin.TabularInline):
     model = Images
@@ -7,8 +9,7 @@ class CaseImageInLine(admin.TabularInline):
     min_num = 1
 
 
-
-class CaseAdmin(admin.ModelAdmin):
+class CaseAdmin(TranslationAdmin):
     model = Case
     inlines = [CaseImageInLine, ]
     list_display = ['title']
@@ -18,7 +19,6 @@ class CaseAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     model = Categories
     list_display = ['title', 'slug']
-
 
 
 admin.site.register(Case, CaseAdmin)

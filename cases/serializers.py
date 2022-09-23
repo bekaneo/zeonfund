@@ -14,7 +14,7 @@ class CaseSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         if instance.images.exists():
             images = ImageSerializer(instance.images.all(),
-                                     many=True)
+                                     many=True, context={'request': self.context.get('request')})
             representation['images'] = images.data
         return representation
 

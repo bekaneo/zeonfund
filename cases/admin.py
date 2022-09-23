@@ -16,7 +16,7 @@ class CaseAdmin(TranslationAdmin):
 
 
 @admin.register(Categories)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TranslationAdmin):
     model = Categories
     list_display = ['title', 'slug']
 

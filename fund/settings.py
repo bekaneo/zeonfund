@@ -8,17 +8,12 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
-"""
 
-import os
 from datetime import timedelta
 from pathlib import Path
 from decouple import config
 from django.utils.translation import gettext_lazy as _
-LANGUAGES = (
-    ('en', _('English')),
-    ('ru', _('Russian')),
-)
+
 
 SECRET_KEY = config('SECRET_KEY')
 
@@ -48,6 +43,7 @@ MERCHANT_SECRET_KEY = config('MERCHANT_SECRET_KEY')
 
 INSTALLED_APPS = [
     'jazzmin',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -101,6 +97,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -174,7 +171,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en'
+
+LANGUAGE_CODE = 'ru'
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
+
+gettext = lambda s: s
+LANGUAGES = (
+    ('ru', _("Russia")),
+    ('en', _("English")),
+)
+
+LOCALE_PATH = (
+    os.path.join(BASE_DIR, 'locale/'),
+)
+
 
 TIME_ZONE = 'Asia/Bishkek'
 

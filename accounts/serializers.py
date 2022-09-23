@@ -77,7 +77,9 @@ class RestorePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError('This email does not exists')
         return email
 
-    def send_verification_code(self):
+    def send_verification_code(self, email):
+        if not User.objects.filter(email=email).exists():
+            raise serializers.ValidationError('This email does not exists')
         email = self.validated_data.get('email')
         user = User.objects.get(email=email)
         user.create_activation_code()

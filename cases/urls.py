@@ -9,5 +9,7 @@ router.register('images', views.ImageViewSet)
 router.register('categories', views.CategoriesViewSet)
 
 
-urlpatterns = []
+urlpatterns = [
+    path('payment/', views.PaymentView.as_view())
+]
 urlpatterns += router.urls

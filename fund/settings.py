@@ -8,13 +8,12 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
-"""
-from django.utils.translation import gettext_lazy as _
+
 from datetime import timedelta
 from pathlib import Path
 from decouple import config
+from django.utils.translation import gettext_lazy as _
 
-import os
 
 SECRET_KEY = config('SECRET_KEY')
 
@@ -31,6 +30,8 @@ DEBUG = config('DEBUG', cast=bool, default=True)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split()
 
+MERCHANT_ID = config('MERCHANT_ID')
+MERCHANT_SECRET_KEY = config('MERCHANT_SECRET_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'debug_toolbar',
+    "corsheaders",
     'django_filters',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -90,6 +92,9 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -100,6 +105,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+PAYMENT_VARIANTS = {
+    "default": (
+        "django_payments_provider.PayboxProvider",
+        {
+            "secret": "LeFnP16MP6AU6YKc",
+            "merchant_id": 535456,
+            "site_url": "https://my.paybox.money/dev",
+            "testing_mode": 1,
+        },
+    )
+}
 
 ROOT_URLCONF = 'fund.urls'
 
@@ -155,6 +171,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
+
 LANGUAGE_CODE = 'ru'
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 
@@ -168,9 +185,12 @@ LOCALE_PATH = (
     os.path.join(BASE_DIR, 'locale/'),
 )
 
+
 TIME_ZONE = 'Asia/Bishkek'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 

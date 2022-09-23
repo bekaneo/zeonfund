@@ -89,7 +89,7 @@ class RestorePasswordView(APIView):
         data = request.data
         serializer = RestorePasswordSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
-            serializer.send_verification_code()
+            serializer.send_verification_code(request.data.get('email'))
             return Response('Check your email for code', status=status.HTTP_201_CREATED)
 
 

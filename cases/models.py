@@ -37,7 +37,7 @@ class Case(models.Model):
     status = models.IntegerField(choices=STATUS_CHOICES, default=4)
     goal = models.IntegerField(default=1000)
     raised = models.IntegerField(default=0)
-    location = models.CharField(max_length=100)
+    location = models.CharField(max_length=100, default='Bishkek, Kyrgyzstan')
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

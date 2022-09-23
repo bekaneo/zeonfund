@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, filters
 from rest_framework.response import Response
@@ -10,8 +11,9 @@ from .serializers import CaseSerializer, ImageSerializer, CategoriesSerializer
 class CaseModelViewSet(ModelViewSet):
     queryset = Case.objects.filter(status=1)
     serializer_class = CaseSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['title']
+    filterset_fields = ['category']
 
     @swagger_auto_schema(request_body=CaseSerializer)
     def create(self, request, *args, **kwargs):
